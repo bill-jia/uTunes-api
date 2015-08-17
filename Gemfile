@@ -9,8 +9,17 @@ gem 'spring', :group => :development
 
 gem 'pg'
 
-gem 'rspec-rails'
+group :development, :test do
 
+	gem 'rspec-rails'
+
+	# Testing factory generator
+	gem 'factory_girl_rails'
+
+	# Fake data generator
+	gem 'faker'
+
+end
 
 
 # To use ActiveModel has_secure_password
