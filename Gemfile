@@ -19,6 +19,7 @@ group :development, :test do
 	# Fake data generator
 	gem 'faker'
 
+	gem 'database_cleaner'
 end
 
 
