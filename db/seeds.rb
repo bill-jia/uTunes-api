@@ -12,3 +12,7 @@ Album.create([
 	{title: "Twig Tape XXVII", year: 2012},
 	{title: "Twig Tape XXVI", year: 2011}
 ])
+
+a5 = Album.create(year: 2015, title: "Potato")
+t1 = Track.create(title: "Spud", track_number: 1, length_in_seconds: 240)
+a5.tracks << [t1]

@@ -55,6 +55,6 @@ class AlbumsController < ApplicationController
     end
 
     def album_params
-      params.require(:album).permit(:title, :year, :tracks_count)
+      params.permit(:title, :year, :tracks_count, tracks_attributes: [:id, :title, :track_number, :length_in_seconds])
     end
 end
