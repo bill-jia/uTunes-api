@@ -4,8 +4,11 @@ class TracksController < ApplicationController
   # GET /tracks
   # GET /tracks.json
   def index
-    @tracks = Track.all
-
+    if params[:album_id]
+      @tracks = Album.find(params[:album_id]).tracks
+    else
+      @tracks = Track.all
+    end
     render json: @tracks
   end
 
