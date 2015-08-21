@@ -55,6 +55,10 @@ class AlbumsController < ApplicationController
     end
 
     def album_params
-      params.require(:album).permit(:title, :year, :tracks_count, tracks_attributes: [:id, :title, :track_number, :length_in_seconds])
+      unless params["album"]["tracks"].blank?
+        params["album"]["tracks_attributes"] = params["album"]["tracks"]
+        params["album"].delete("tracks")
+      end
+      params.require(:album).permit(:title, :year, :tracks_count, tracks_attributes: [:id, :title, :track_number, :length_in_seconds, :_destroy, :album_id])
     end
 end
