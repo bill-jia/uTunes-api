@@ -57,6 +57,6 @@ class TracksController < ApplicationController
     end
 
     def track_params
-      params.permit(:album_id, :title, :track_number, :length_in_seconds)
+      params.require(:track).permit(:album_id, :title, :track_number, :length_in_seconds)
     end
 end

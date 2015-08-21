@@ -10,7 +10,8 @@ gem 'spring', :group => :development
 gem 'pg'
 
 group :development, :test do
-
+	gem 'hirb'
+	
 	gem 'rspec-rails'
 
 	# Testing factory generator
