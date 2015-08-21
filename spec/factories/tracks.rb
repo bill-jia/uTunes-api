@@ -1,9 +1,7 @@
 FactoryGirl.define do
   factory :track do
-    album nil
-title "MyString"
-track_number 1
-length_in_seconds 1.5
+    title { Faker::Name.name }
+		track_number  { Faker::Number.number(1) }
+		length_in_seconds { Faker::Number.decimal(3,2)}
   end
-
 end

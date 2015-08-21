@@ -68,10 +68,6 @@ RSpec.describe AlbumsController, type: :controller do
       it { expect(results["title"]).to eq(album.title) }
       it { expect(results["year"]).to eq(album.year) }
     end
-    context "when the album doesn't exist" do
-      let(:album_id) {-9999}
-      it { expect(response.status).to eq(404)}
-    end
   end
 
   # describe "GET #new" do
@@ -108,74 +104,49 @@ RSpec.describe AlbumsController, type: :controller do
         expect(response.status).to eq(204)
       end
     end
+  end
 
-    context "with invalid params" do
-      it "assigns a newly created but unsaved album as @album" do
-        post :create, {:album => invalid_attributes}, valid_session
-        expect(assigns(:album)).to be_a_new(Album)
+  describe "PUT #update" do
+    context "with valid params" do
+      let(:new_attributes) {
+        {title: "Rutabaga", year: 2048}
+      }
+
+      it "updates the requested album" do
+        album = Album.create! valid_attributes
+        put :update, {:id => album.to_param, :album => new_attributes}, valid_session
+        album.reload
+        expect(album.title).to eq("Rutabaga")
+        expect(album.year).to eq(2048)
       end
 
-      it "returns an error code" do
-        post :create, {:album => invalid_attributes}, valid_session
-        expect(response.status).to eq(422)
+      it "assigns the requested album as @album" do
+        album = Album.create! valid_attributes
+        put :update, {:id => album.to_param, :album => valid_attributes}, valid_session
+        expect(assigns(:album)).to eq(album)
+      end
+
+      it "returns an empty response" do
+        album = Album.create! valid_attributes
+        put :update, {:id => album.to_param, :album => valid_attributes}, valid_session
+        expect(response.status).to eq(204)
       end
     end
   end
 
-  # describe "PUT #update" do
-  #   context "with valid params" do
-  #     let(:new_attributes) {
-  #       skip("Add a hash of attributes valid for your model")
-  #     }
+  describe "DELETE #destroy" do
+    it "destroys the requested album" do
+      album = Album.create! valid_attributes
+      expect {
+        delete :destroy, {:id => album.to_param}, valid_session
+      }.to change(Album, :count).by(-1)
+    end
 
-  #     it "updates the requested album" do
-  #       album = Album.create! valid_attributes
-  #       put :update, {:id => album.to_param, :album => new_attributes}, valid_session
-  #       album.reload
-  #       skip("Add assertions for updated state")
-  #     end
-
-  #     it "assigns the requested album as @album" do
-  #       album = Album.create! valid_attributes
-  #       put :update, {:id => album.to_param, :album => valid_attributes}, valid_session
-  #       expect(assigns(:album)).to eq(album)
-  #     end
-
-  #     it "redirects to the album" do
-  #       album = Album.create! valid_attributes
-  #       put :update, {:id => album.to_param, :album => valid_attributes}, valid_session
-  #       expect(response).to redirect_to(album)
-  #     end
-  #   end
-
-  #   context "with invalid params" do
-  #     it "assigns the album as @album" do
-  #       album = Album.create! valid_attributes
-  #       put :update, {:id => album.to_param, :album => invalid_attributes}, valid_session
-  #       expect(assigns(:album)).to eq(album)
-  #     end
-
-  #     it "re-renders the 'edit' template" do
-  #       album = Album.create! valid_attributes
-  #       put :update, {:id => album.to_param, :album => invalid_attributes}, valid_session
-  #       expect(response).to render_template("edit")
-  #     end
-  #   end
-  # end
-
-  # describe "DELETE #destroy" do
-  #   it "destroys the requested album" do
-  #     album = Album.create! valid_attributes
-  #     expect {
-  #       delete :destroy, {:id => album.to_param}, valid_session
-  #     }.to change(Album, :count).by(-1)
-  #   end
-
-  #   it "redirects to the albums list" do
-  #     album = Album.create! valid_attributes
-  #     delete :destroy, {:id => album.to_param}, valid_session
-  #     expect(response).to redirect_to(albums_url)
-  #   end
-  # end
+    it "returns an empty response" do
+      album = Album.create! valid_attributes
+      delete :destroy, {:id => album.to_param}, valid_session
+      expect(response.status).to eq(204)
+    end
+  end
 
 end

@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
   scope '/api' do
     resources :albums, except: [:new, :edit], defaults: { format: :json } do
-      resources :tracks, only: [:index, :create], defaults: {format:  :json}      
+      resources :tracks, only: [:index, :create, :show], defaults: {format:  :json}      
     end
-    resources :tracks, except: [:new, :edit], defaults: {format:  :json} 
+    resources :tracks, except: [:new, :edit, :show], defaults: {format:  :json} 
   end 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

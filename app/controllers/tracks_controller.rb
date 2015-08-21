@@ -24,7 +24,8 @@ class TracksController < ApplicationController
     @track = Track.new(track_params)
 
     if @track.save
-      render json: @track, status: :created, location: @track
+      head :no_content
+      # render json: @track, status: :created, location: @track
     else
       render json: @track.errors, status: :unprocessable_entity
     end
