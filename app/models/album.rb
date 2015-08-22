@@ -6,15 +6,15 @@ class Album < ActiveRecord::Base
 	before_save :get_artists
 
 	def get_artists
-	self.artists = Array.new
+		self.artists = Array.new
 
-	self.tracks.each do |track|
-		artists = track.artists.collect do |artist|
-			Artist.find_or_create_by(name: artist.name, class_year: artist.class_year)
-		end
-		artists.each do |artist|
-			self.artists.push(artist)
+		self.tracks.each do |track|
+			artists = track.artists.collect do |artist|
+				Artist.find_or_create_by(name: artist.name, class_year: artist.class_year)
+			end
+			artists.each do |artist|
+					self.artists.push(artist)
+			end
 		end
 	end
-end
 end
