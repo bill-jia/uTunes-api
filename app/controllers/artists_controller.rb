@@ -4,7 +4,11 @@ class ArtistsController < ApplicationController
   # GET /artists
   # GET /artists.json
   def index
-    @artists = Artist.all
+    if params[:track_id]
+      @artists = Track.find(params[:track_id]).artists
+    else
+      @artists = Artist.all
+    end
 
     render json: @artists
   end

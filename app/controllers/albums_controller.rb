@@ -4,8 +4,11 @@ class AlbumsController < ApplicationController
   # GET /albums
   # GET /albums.json
   def index
-    @albums = Album.all
-
+    if params[:artist_id]
+      @albums = Artist.find(params[:artist_id]).albums
+    else
+      @albums = Album.all
+    end
     render json: @albums
   end
 
@@ -57,11 +60,13 @@ class AlbumsController < ApplicationController
     def album_params
       unless params["album"]["tracks"].blank?
         params["album"]["tracks_attributes"] = params["album"]["tracks"]
-        unless params["album"]["tracks_attributes"]["artists"].blank?
-          params["album"]["tracks_attributes"]["artists_attributes"] = params["album"]["tracks_attributes"]["artists"]
-          params["album"]["tracks_attributes"].delete("artists")
-        end
         params["album"].delete("tracks")
+        params["album"]["tracks_attributes"].each do |track_params|
+          unless track_params["artists"].blank?
+            track_params["artists_attributes"] = track_params["artists"]
+            track_params.delete("artists")
+          end
+        end
       end
       params.require(:album).permit(:title, :year, :tracks_count, tracks_attributes: [{artists_attributes:[:id, :name, :class_year, :_destroy]}, :id, :title, :track_number, :length_in_seconds, :_destroy, :album_id])
     end

@@ -6,6 +6,8 @@ class TracksController < ApplicationController
   def index
     if params[:album_id]
       @tracks = Album.find(params[:album_id]).tracks
+    elsif params[:artist_id]
+      @tracks = Artist.find(params[:artist_id]).tracks
     else
       @tracks = Track.all
     end

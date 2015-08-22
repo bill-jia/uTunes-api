@@ -9,8 +9,8 @@ Rails.application.routes.draw do
       resources :artists, only: [:index, :show], defaults: {format: :json}
     end
     resources :artists, except: [:new, :edit], defaults: {format: :json} do
-      resources :tracks, only: [:index]
-      resources :albums, only: [:index, :show]
+      resources :tracks, only: [:index], defaults: {format: :json}
+      resources :albums, only: [:index, :show], defaults: {format: :json}
     end
   end
   # The priority is based upon order of creation: first created -> highest priority.
