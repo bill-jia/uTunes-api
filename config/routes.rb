@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
   scope '/api' do
     resources :albums, except: [:new, :edit], defaults: { format: :json } do
-      resources :tracks, only: [:index, :create], defaults: {format:  :json}
-      resources :artists, only: [:index, :create, :show], defaults: {format: :json}
+      resources :tracks, only: [:index, :create], defaults: {format:  :json} do
+        resources :artists, only: [:index, :create], defaults: {format: :json}
+      end
     end
     resources :tracks, except: [:new, :edit], defaults: {format:  :json}  do
       resources :artists, only: [:index, :show], defaults: {format: :json}
