@@ -7,11 +7,13 @@ gem 'rails-api'
 
 gem 'spring', :group => :development
 
+gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
 gem 'pg'
 
 group :development, :test do
 	gem 'hirb'
-	
+
 	gem 'rspec-rails'
 
 	# Testing factory generator
