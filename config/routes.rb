@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :producers, except: [:new, :edit]
   scope '/api' do
     resources :albums, except: [:new, :edit], defaults: { format: :json } do
       resources :tracks, only: [:index, :create], defaults: {format:  :json} do
