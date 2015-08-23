@@ -7,7 +7,7 @@ class Track < ActiveRecord::Base
 
   def get_artists
     self.artists = self.artists.collect do |artist|
-      artist = Artist.find_or_create_by(name: artist.name, class_year: artist.class_year)
+      artist = Artist.create_with(bio: artist.bio).find_or_create_by(name: artist.name, class_year: artist.class_year)
     end
   end
 

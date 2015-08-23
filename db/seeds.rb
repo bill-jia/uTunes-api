@@ -16,3 +16,5 @@ t1 = Track.create(title: "Spud", track_number: 1, length_in_seconds: 240)
 t2 = Track.create(title: "Creamed Corn", track_number: 1, length_in_seconds: 420)
 a5.tracks << [t1]
 a1.tracks << [t2]
+
+r1 = Artist.create(name: "ABCD", class_year: 2015, bio: "Lorem ipsum")

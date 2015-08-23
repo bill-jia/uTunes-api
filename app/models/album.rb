@@ -10,7 +10,7 @@ class Album < ActiveRecord::Base
 
 		self.tracks.each do |track|
 			artists = track.artists.collect do |artist|
-				Artist.find_or_create_by(name: artist.name, class_year: artist.class_year)
+				Artist.find_by name: artist.name, class_year: artist.class_year
 			end
 			artists.each do |artist|
 					self.artists.push(artist) unless self.artists.include?(artist)
