@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20150821030616) do
     t.string   "name"
     t.integer  "class_year"
     t.integer  "tracks_count"
+    t.text     "bio"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end

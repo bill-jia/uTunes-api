@@ -68,6 +68,6 @@ class AlbumsController < ApplicationController
           end
         end
       end
-      params.require(:album).permit(:title, :year, :tracks_count, tracks_attributes: [{artists_attributes:[:id, :name, :class_year, :bio :_destroy]}, :id, :title, :track_number, :length_in_seconds, :_destroy, :album_id])
+      params.require(:album).permit(:title, :year, :tracks_count, tracks_attributes: [{artists_attributes:[:id, :name, :class_year, :bio, :_destroy]}, :id, :title, :track_number, :length_in_seconds, :_destroy, :album_id])
     end
 end
