@@ -68,6 +68,10 @@ class AlbumsController < ApplicationController
           end
         end
       end
+      unless params["album"]["producers"].blank?
+        params["album"]["producers_attributes"] = params["album"]["producers"]
+        params["album"].delete("producers")
+      end
       params.require(:album).permit(:title, :year, :tracks_count, producers_attributes: [:id, :name, :class_year, :role, :bio, :_destroy],
       tracks_attributes: [{artists_attributes:[:id, :name, :class_year, :bio, :_destroy]}, :id, :title, :track_number, :length_in_seconds, :_destroy, :album_id])
     end
