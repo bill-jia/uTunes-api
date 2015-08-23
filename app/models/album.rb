@@ -4,6 +4,7 @@ class Album < ActiveRecord::Base
 	has_and_belongs_to_many :producers
 	accepts_nested_attributes_for :tracks, allow_destroy: true
 	accepts_nested_attributes_for :producers, allow_destroy: true
+	mount_uploader :album_cover, AlbumCoverUploader
 
 	before_save :get_producers
 	after_create :get_artists
