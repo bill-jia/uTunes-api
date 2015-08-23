@@ -4,6 +4,7 @@ class CreateArtists < ActiveRecord::Migration
       t.string :name
       t.integer :class_year
       t.integer :tracks_count
+      t.text :bio
 
       t.timestamps null: false
     end
