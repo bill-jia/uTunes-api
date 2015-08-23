@@ -4,8 +4,11 @@ class ProducersController < ApplicationController
   # GET /producers
   # GET /producers.json
   def index
-    @producers = Producer.all
-
+    if params[:album_id]
+      @producers = Album.find(params[:album_id]).producers
+    else
+      @producers = Producer.all
+    end
     render json: @producers
   end
 
