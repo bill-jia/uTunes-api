@@ -5,7 +5,6 @@ class CreateProducers < ActiveRecord::Migration
       t.string :class_year
       t.text :bio
       t.integer :albums_count
-      t.string :role
 
       t.timestamps null: false
     end

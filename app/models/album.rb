@@ -10,7 +10,7 @@ class Album < ActiveRecord::Base
 
 	def get_producers
 		self.producers = self.producers.collect do |producer|
-			Producer.create_with(role: producer.role, bio: producer.bio).find_or_create_by(name: producer.name, class_year: producer.class_year)
+			Producer.create_with(bio: producer.bio).find_or_create_by(name: producer.name, class_year: producer.class_year)
 		end
 	end
 

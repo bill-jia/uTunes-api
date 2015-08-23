@@ -53,7 +53,6 @@ ActiveRecord::Schema.define(version: 20150823024253) do
     t.string   "class_year"
     t.text     "bio"
     t.integer  "albums_count"
-    t.string   "role"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
