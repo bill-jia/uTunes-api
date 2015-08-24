@@ -11,17 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150823024253) do
+ActiveRecord::Schema.define(version: 20150824161410) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "albums", force: :cascade do |t|
-    t.string   "title",        null: false
+    t.string   "title",                    null: false
     t.integer  "year"
     t.integer  "tracks_count"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.string   "cover_image_file_name"
+    t.string   "cover_image_content_type"
+    t.integer  "cover_image_file_size"
+    t.datetime "cover_image_updated_at"
   end
 
   create_table "albums_artists", id: false, force: :cascade do |t|
@@ -62,8 +66,12 @@ ActiveRecord::Schema.define(version: 20150823024253) do
     t.string   "title"
     t.integer  "track_number"
     t.float    "length_in_seconds"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.string   "audio_file_name"
+    t.string   "audio_content_type"
+    t.integer  "audio_file_size"
+    t.datetime "audio_updated_at"
   end
 
   add_index "tracks", ["album_id"], name: "index_tracks_on_album_id", using: :btree

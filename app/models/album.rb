@@ -10,6 +10,9 @@ class Album < ActiveRecord::Base
 	before_save :get_producers
 	after_create :get_artists
 
+	# validates_attachment :cover_image, content_type: { content_type: ["image/jpg", "image/jpeg", "image/png", "image/gif"] }
+	do_not_validate_attachment_file_type :cover_image
+
 	def get_producers
 		self.producers = self.producers.collect do |producer|
 			Producer.create_with(bio: producer.bio).find_or_create_by(name: producer.name, class_year: producer.class_year)

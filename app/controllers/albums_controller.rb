@@ -23,6 +23,7 @@ class AlbumsController < ApplicationController
   # POST /albums
   # POST /albums.json
   def create
+    logger.debug album_params
     @album = Album.new(album_params)
 
     if @album.save
@@ -74,7 +75,10 @@ class AlbumsController < ApplicationController
         params["album"]["producers_attributes"] = params["album"]["producers"]
         params["album"].delete("producers")
       end
-      params.require(:album).permit(:title, :year, :tracks_count, :cover_image, producers_attributes: [:id, :name, :class_year, :bio, :_destroy],
-      tracks_attributes: [{artists_attributes:[:id, :name, :class_year, :bio, :_destroy]}, :id, :title, :track_number, :length_in_seconds, :_destroy, :album_id, :audio])
+      params.require(:album).permit(:title, :year, :tracks_count, :cover_image,
+      producers_attributes: [:id, :name, :class_year, :bio, :_destroy],
+      tracks_attributes: [
+        {artists_attributes:[:id, :name, :class_year, :bio, :_destroy]},
+        :id, :title, :track_number, :length_in_seconds, :_destroy, :album_id, :audio])
     end
 end
