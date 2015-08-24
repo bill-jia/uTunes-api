@@ -2,6 +2,8 @@ class Album < ActiveRecord::Base
 	has_many :tracks, dependent: :destroy
 	has_and_belongs_to_many :artists
 	has_and_belongs_to_many :producers
+	has_attached_file :cover_image, styles: {medium: "300x300", thumb: "100x100>"}
+
 	accepts_nested_attributes_for :tracks, allow_destroy: true
 	accepts_nested_attributes_for :producers, allow_destroy: true
 
