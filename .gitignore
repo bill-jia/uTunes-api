@@ -14,3 +14,9 @@
 
 # Ignore seed data
 seeds.rb
+
+# Ignore media files
+*.mp3
+*.png
+*.jpg
+*.gif

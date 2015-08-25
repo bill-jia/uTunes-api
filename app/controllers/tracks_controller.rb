@@ -1,5 +1,6 @@
 class TracksController < ApplicationController
   before_action :set_track, only: [:show, :update, :destroy]
+  before_action :process_params, only: [:create, :update]
 
   # GET /tracks
   # GET /tracks.json
@@ -57,6 +58,13 @@ class TracksController < ApplicationController
 
     def set_track
       @track = Track.find(params[:id])
+    end
+
+    def process_params
+      unless params["file"].blank?
+        params["track"] = JSON.parse(params["track"]).with_indifferent_access
+        params["track"]["audio"] = params["file"]
+      end
     end
 
     def track_params

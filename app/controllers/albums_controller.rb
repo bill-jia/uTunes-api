@@ -1,5 +1,6 @@
 class AlbumsController < ApplicationController
   before_action :set_album, only: [:show, :update, :destroy]
+  before_action :process_params, only: [:create, :update]
 
   # GET /albums
   # GET /albums.json
@@ -59,7 +60,11 @@ class AlbumsController < ApplicationController
       @album = Album.find(params[:id])
     end
 
-    def album_params
+    def process_params
+      unless params["file"].blank?
+        params["album"] = JSON.parse(params["album"]).with_indifferent_access
+        params["album"]["cover_image"] = params["file"]
+      end
       unless params["album"]["tracks"].blank?
         params["album"]["tracks_attributes"] = params["album"]["tracks"]
         params["album"].delete("tracks")
@@ -74,6 +79,9 @@ class AlbumsController < ApplicationController
         params["album"]["producers_attributes"] = params["album"]["producers"]
         params["album"].delete("producers")
       end
+    end
+
+    def album_params
       params.require(:album).permit(:title, :year, :tracks_count, :cover_image, producers_attributes: [:id, :name, :class_year, :bio, :_destroy],
       tracks_attributes: [{artists_attributes:[:id, :name, :class_year, :bio, :_destroy]}, :id, :title, :track_number, :length_in_seconds, :_destroy, :album_id, :audio])
     end
