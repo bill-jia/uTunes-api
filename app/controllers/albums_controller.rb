@@ -65,8 +65,10 @@ class AlbumsController < ApplicationController
 
       unless files.empty?
         params["album"] = JSON.parse(params["album"]).with_indifferent_access
-        offset_value = files.length - params["album"]["tracks"].length
-        if offset_value == 1
+        if params["album"]["tracks"]
+          offset_value = files.length - params["album"]["tracks"].length
+        end
+        if !offset_value || offset_value == 1
           params["album"]["cover_image"] = files[0]
         end
       end
