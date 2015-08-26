@@ -61,18 +61,24 @@ class AlbumsController < ApplicationController
     end
 
     def process_params
-      unless params["file"].blank?
+      files = params.values.find_all { |value| value.class == ActionDispatch::Http::UploadedFile }
+
+      unless files.empty?
         params["album"] = JSON.parse(params["album"]).with_indifferent_access
-        params["album"]["cover_image"] = params["file"]
+        offset_value = files.length - params["album"]["tracks"].length
+        if offset_value == 1
+          params["album"]["cover_image"] = files[0]
+        end
       end
       unless params["album"]["tracks"].blank?
         params["album"]["tracks_attributes"] = params["album"]["tracks"]
         params["album"].delete("tracks")
-        params["album"]["tracks_attributes"].each do |track_params|
+        params["album"]["tracks_attributes"].each_with_index do |track_params, index|
           unless track_params["artists"].blank?
             track_params["artists_attributes"] = track_params["artists"]
             track_params.delete("artists")
           end
+          track_params["audio"] = files[index+offset_value]
         end
       end
       unless params["album"]["producers"].blank?
