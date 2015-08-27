@@ -1,6 +1,7 @@
 class ProducersController < ApplicationController
   before_action :set_producer, only: [:show, :update, :destroy]
-
+  before_action :process_params, only: [:create, :update]
+  
   # GET /producers
   # GET /producers.json
   def index
@@ -56,7 +57,15 @@ class ProducersController < ApplicationController
       @producer = Producer.find(params[:id])
     end
 
+    def process_params
+      unless params["file"].blank?
+        params["producer"] = JSON.parse(params["producer"]).with_indifferent_access
+        params["producer"]["profile_picture"] = params["file"]
+        params.delete("file")
+      end
+    end
+
     def producer_params
-      params.require(:producer).permit(:name, :class_year, :bio, :albums_count, :role)
+      params.require(:producer).permit(:name, :class_year, :bio, :albums_count, :role, :profile_picture)
     end
 end

@@ -49,7 +49,7 @@ class AlbumsController < ApplicationController
   # DELETE /albums/1
   # DELETE /albums/1.json
   def destroy
-    @album.destroy
+    album_strong_delete(@album)
 
     head :no_content
   end

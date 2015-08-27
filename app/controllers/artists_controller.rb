@@ -1,5 +1,6 @@
 class ArtistsController < ApplicationController
   before_action :set_artist, only: [:show, :update, :destroy]
+  before_action :process_params, only: [:create, :update]
 
   # GET /artists
   # GET /artists.json
@@ -46,7 +47,7 @@ class ArtistsController < ApplicationController
   # DELETE /artists/1
   # DELETE /artists/1.json
   def destroy
-    @artist.destroy
+    artist_strong_delete(@artist, params[:delete_associated_tracks])
 
     head :no_content
   end
@@ -57,7 +58,15 @@ class ArtistsController < ApplicationController
       @artist = Artist.find(params[:id])
     end
 
+    def process_params
+      unless params["file"].blank?
+        params["artist"] = JSON.parse(params["artist"]).with_indifferent_access
+        params["artist"]["profile_picture"] = params["file"]
+        params.delete("file")
+      end
+    end
+
     def artist_params
-      params.require(:artist).permit(:id, :name, :class_year, :tracks_count, :bio)
+      params.require(:artist).permit(:id, :name, :class_year, :tracks_count, :bio, :profile_picture)
     end
 end

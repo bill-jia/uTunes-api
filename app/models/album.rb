@@ -1,5 +1,5 @@
 class Album < ActiveRecord::Base
-	has_many :tracks, dependent: :destroy
+	has_many :tracks
 	has_and_belongs_to_many :artists
 	has_and_belongs_to_many :producers
 	mount_uploader :cover_image, CoverImageUploader
