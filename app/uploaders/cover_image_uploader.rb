@@ -32,7 +32,7 @@ class CoverImageUploader < CarrierWave::Uploader::Base
   # end
 
   version :thumb do
-    process resize_to_fit: [50, 50]
+    process resize_to_fit: [75, 75]
   end
   version :small do
     process resize_to_fit: [100, 100]
