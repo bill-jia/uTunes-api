@@ -41,7 +41,7 @@ class TracksController < ApplicationController
 
     if @track.update(track_params)
       params["track"]["artists_attributes"].each do |artist|
-        if artist[:remove_association] == true
+        if artist[:_remove] == true
           @artist = Artist.find(artist[:id])
           if @artist.tracks.size == 1
             artist_strong_delete(@artist, false)
@@ -83,6 +83,6 @@ class TracksController < ApplicationController
     end
 
     def track_params
-      params.require(:track).permit(:album_id, :title, :track_number, :length_in_seconds, :_destroy, :audio, artists_attributes: [:id, :name, :class_year, :bio, :remove_association])
+      params.require(:track).permit(:album_id, :title, :track_number, :length_in_seconds, :_destroy, :audio, artists_attributes: [:id, :name, :class_year, :bio, :_remove])
     end
 end

@@ -1,5 +1,5 @@
 class Artist < ActiveRecord::Base
-	attr_accessor :remove_association
+	attr_accessor :_remove
 	
 	has_and_belongs_to_many :albums
 	has_and_belongs_to_many :tracks

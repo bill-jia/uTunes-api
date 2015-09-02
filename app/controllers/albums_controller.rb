@@ -40,6 +40,15 @@ class AlbumsController < ApplicationController
     @album = Album.find(params[:id])
 
     if @album.update(album_params)
+      params["album"]["producers_attributes"].each do |producer|
+        if producer[:_remove] == true
+          @producer = Producer.find(producer[:id])
+          if @producer.albums.size == 1
+            @producer.destroy
+          end
+          @album.producers.delete(@producer)
+        end
+      end
       head :no_content
     else
       render json: @album.errors, status: :unprocessable_entity
@@ -90,7 +99,7 @@ class AlbumsController < ApplicationController
     end
 
     def album_params
-      params.require(:album).permit(:title, :year, :tracks_count, :cover_image, producers_attributes: [:id, :name, :class_year, :bio, :_destroy],
+      params.require(:album).permit(:title, :year, :tracks_count, :cover_image, producers_attributes: [:id, :name, :class_year, :bio, :_destroy, :_remove],
       tracks_attributes: [{artists_attributes:[:id, :name, :class_year, :bio, :_destroy]}, :id, :title, :track_number, :length_in_seconds, :_destroy, :album_id, :audio])
     end
 end
