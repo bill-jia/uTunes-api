@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-
   scope '/api' do
+    mount_devise_token_auth_for 'User', at: 'auth'
     resources :albums, except: [:new, :edit], defaults: { format: :json } do
       resources :tracks, only: [:index, :create], defaults: {format:  :json} do
         resources :artists, only: [:index, :create], defaults: {format: :json}

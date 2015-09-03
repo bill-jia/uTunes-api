@@ -14,6 +14,10 @@ gem 'pg'
 gem 'carrierwave', github: 'carrierwaveuploader/carrierwave'
 
 gem 'mini_magick'
+gem 'devise'
+gem 'devise_token_auth'
+
+gem 'omniauth'
 
 group :development, :test do
 	gem 'hirb'

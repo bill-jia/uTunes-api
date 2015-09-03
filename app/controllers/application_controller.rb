@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
-
+  include DeviseTokenAuth::Concerns::SetUserByToken
   def artist_strong_delete(artist, delete_associated_tracks)
     if delete_associated_tracks
       artist.tracks.each do |track|
