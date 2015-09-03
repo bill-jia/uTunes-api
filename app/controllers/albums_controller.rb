@@ -40,13 +40,15 @@ class AlbumsController < ApplicationController
     @album = Album.find(params[:id])
 
     if @album.update(album_params)
-      params["album"]["producers_attributes"].each do |producer|
-        if producer[:_remove] == true
-          @producer = Producer.find(producer[:id])
-          if @producer.albums.size == 1
-            @producer.destroy
+      if params["album"]["producers_attributes"]
+        params["album"]["producers_attributes"].each do |producer|
+          if producer[:_remove] == true
+            @producer = Producer.find(producer[:id])
+            if @producer.albums.size == 1
+              @producer.destroy
+            end
+            @album.producers.delete(@producer)
           end
-          @album.producers.delete(@producer)
         end
       end
       head :no_content

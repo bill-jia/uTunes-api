@@ -40,13 +40,15 @@ class TracksController < ApplicationController
     @track = Track.find(params[:id])
 
     if @track.update(track_params)
-      params["track"]["artists_attributes"].each do |artist|
-        if artist[:_remove] == true
-          @artist = Artist.find(artist[:id])
-          if @artist.tracks.size == 1
-            artist_strong_delete(@artist, false)
+      if params["track"]["artists_attributes"]
+        params["track"]["artists_attributes"].each do |artist|
+          if artist[:_remove] == true
+            @artist = Artist.find(artist[:id])
+            if @artist.tracks.size == 1
+              artist_strong_delete(@artist, false)
+            end
+            @track.artists.delete(@artist)
           end
-          @track.artists.delete(@artist)
         end
       end
       head :no_content
