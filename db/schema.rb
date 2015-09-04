@@ -92,6 +92,7 @@ ActiveRecord::Schema.define(version: 20150903181318) do
     t.string   "nickname"
     t.string   "image"
     t.string   "email"
+    t.string   "role",                   default: "user"
     t.json     "tokens"
     t.datetime "created_at"
     t.datetime "updated_at"
