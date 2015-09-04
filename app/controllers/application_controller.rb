@@ -6,7 +6,10 @@ class ApplicationController < ActionController::API
   protected
     def configure_permitted_parameters
       devise_parameter_sanitizer.for(:sign_up) << :name
-      devise_parameter_sanitizer.for(:account_update) << :name, :role, :user_role
+      devise_parameter_sanitizer.for(:account_update) << :name
+      devise_parameter_sanitizer.for(:account_update) << :role
+      devise_parameter_sanitizer.for(:account_update) << :user_role
+    end
   def artist_strong_delete(artist, delete_associated_tracks)
     if delete_associated_tracks
       artist.tracks.each do |track|
