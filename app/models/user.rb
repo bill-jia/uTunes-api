@@ -9,4 +9,12 @@ class User < ActiveRecord::Base
     self.uid = SecureRandom.uuid
     skip_confirmation!
   end  
+
+  def admin?
+  	return self.role == "admin"
+  end
+
+  def producer?
+  	return self.role == "admin" || self.role == "producer"
+  end
 end
