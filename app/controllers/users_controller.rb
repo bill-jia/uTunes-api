@@ -38,8 +38,11 @@ class UsersController < ApplicationController
 
   def destroy
     @user = User.find(params[:id])
-    if @user.destroy
-    	head :no_content
+    if current_user.valid_password?(params[:admin_password])
+      authorize @user
+      if @user.destroy
+      	head :no_content
+      end
     end
   end
 
