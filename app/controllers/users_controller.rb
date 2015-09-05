@@ -3,8 +3,8 @@ class UsersController < ApplicationController
   after_action :verify_authorized
 
 	def index
-		@users = User.all
-    authorize User
+		@users = User.where.not(id: current_user.id)
+    authorize @users
     render json: @users
 	end
 
@@ -24,13 +24,15 @@ class UsersController < ApplicationController
 	end
 
   def update
-    @User = User.find(params[:id])
-    params[:user].delete(:password) if params[:user][:password].blank?
-    params[:user].delete(:password_confirmation) if params[:user][:password_confirmation]
-    if @User.update(User_params)
-      head :no_content
-    else
-      render json: @User.errors, status: :unprocessable_entity
+    @user = User.find(params[:id])
+    if current_user.valid_password?(params[:user][:admin_password])
+      params[:user].delete(:admin_password)
+      authorize @user
+      if @user.update(user_params)
+        head :no_content
+      else
+        render json: @User.errors, status: :unprocessable_entity
+      end
     end
   end
 
@@ -40,4 +42,9 @@ class UsersController < ApplicationController
     	head :no_content
     end
   end
+
+  private
+    def user_params
+      params.require(:user).permit(:name, :email, :role, :admin_password)
+    end  
 end
