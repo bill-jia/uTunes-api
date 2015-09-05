@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     resources :producers, except: [:new, :edit], defaults: {format: :json} do
       resources :albums, only: [:index, :show], defaults: {format: :json}
     end
+    resources :users, except: [:new, :edit], defaults: {format: :json}
   end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
