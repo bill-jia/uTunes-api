@@ -85,19 +85,21 @@ class AlbumsController < ApplicationController
       end
       unless params["album"]["tracks"].blank?
         params["album"]["tracks_attributes"] = params["album"]["tracks"]
-        params["album"].delete("tracks")
         params["album"]["tracks_attributes"].each_with_index do |track_params, index|
           unless track_params["artists"].blank?
             track_params["artists_attributes"] = track_params["artists"]
-            track_params.delete("artists")
           end
+          track_params.delete("artists")
           track_params["audio"] = files[index+offset_value]
+          track_params.delete("file")          
         end
       end
+      params["album"].delete("tracks")
+      params.delete("file")
       unless params["album"]["producers"].blank?
         params["album"]["producers_attributes"] = params["album"]["producers"]
-        params["album"].delete("producers")
       end
+      params["album"].delete("producers")
     end
 
     def album_params
