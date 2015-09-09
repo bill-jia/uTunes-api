@@ -16,6 +16,7 @@ class UsersController < ApplicationController
 
 	def create
 		@user = User.new(params[:user])
+    authorize @user
     if @user.save
       head :no_content
     else

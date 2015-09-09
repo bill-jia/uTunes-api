@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
           :confirmable, :omniauthable
   include DeviseTokenAuth::Concerns::User
 
+  has_many :playlists
+  
   before_save -> do
     self.uid = SecureRandom.uuid
     skip_confirmation!

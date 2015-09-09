@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   scope '/api' do
     mount_devise_token_auth_for 'User', at: 'auth'
     resources :albums, except: [:new, :edit], defaults: { format: :json } do
@@ -20,7 +19,11 @@ Rails.application.routes.draw do
     end
     resources :posts, except: [:new, :edit], defaults: {format: :json}
     resources :users, except: [:new, :edit], defaults: {format: :json} do
-      resources :posts, except: [:new, :edit], defaults: {format: :json}
+      resources :posts, only: [:index, :show], defaults: {format: :json}
+      resources :playlists, only: [:index, :show, :update], defaults: {format: :json}
+    end
+    resources :playlists, except: [:new, :edit], defaults: {format: :json} do
+      resources :tracks, only: [:index], defaults: {format: :json}      
     end
   end
   # The priority is based upon order of creation: first created -> highest priority.

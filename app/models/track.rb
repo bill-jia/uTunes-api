@@ -1,6 +1,8 @@
 class Track < ActiveRecord::Base
+  attr_accessor :_remove
   belongs_to :album, counter_cache: true
   has_and_belongs_to_many :artists, -> {order "name, class_year"}
+  has_and_belongs_to_many :playlists
   accepts_nested_attributes_for :artists
   mount_uploader :audio, AudioUploader
 
