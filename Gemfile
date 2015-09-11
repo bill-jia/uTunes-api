@@ -19,6 +19,8 @@ gem 'devise_token_auth'
 
 gem 'omniauth'
 gem 'pundit'
+gem 'sunspot_solr', github: 'sunspot/sunspot', branch: 'master'
+gem 'sunspot_rails', github: 'sunspot/sunspot', branch: 'master'
 
 group :development, :test do
 	gem 'hirb'

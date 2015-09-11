@@ -5,7 +5,12 @@ class ProducersController < ApplicationController
   # GET /producers
   # GET /producers.json
   def index
-    if params[:album_id]
+    if params[:search]
+      @search = Producer.search do
+        fulltext params[:search]
+      end
+      @producers = @search.results    
+    elsif params[:album_id]
       @producers = Album.find(params[:album_id]).producers
     else
       @producers = Producer.all

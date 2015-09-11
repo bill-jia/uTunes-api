@@ -10,6 +10,19 @@ class Album < ActiveRecord::Base
 	before_save :get_producers
 	after_create :get_artists
 
+	searchable do
+		text :title, :year
+		text :tracks do
+			tracks.map(&:title)
+		end
+		text :artists do
+			artists.map(&:name)
+		end
+		text :producers do
+			producers.map(&:name)
+		end
+	end
+
 	def get_producers
 		self.producers = self.producers.collect do |producer|
 			Producer.create_with(bio: producer.bio).find_or_create_by(name: producer.name, class_year: producer.class_year)

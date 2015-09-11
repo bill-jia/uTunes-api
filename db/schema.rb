@@ -17,8 +17,8 @@ ActiveRecord::Schema.define(version: 20150906222100) do
   enable_extension "plpgsql"
 
   create_table "albums", force: :cascade do |t|
-    t.string   "title",        null: false
-    t.integer  "year"
+    t.text     "title",        null: false
+    t.text     "year"
     t.integer  "tracks_count"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
@@ -36,8 +36,8 @@ ActiveRecord::Schema.define(version: 20150906222100) do
   end
 
   create_table "artists", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "class_year"
+    t.text     "name"
+    t.text     "class_year"
     t.integer  "tracks_count"
     t.text     "bio"
     t.datetime "created_at",      null: false
@@ -79,8 +79,8 @@ ActiveRecord::Schema.define(version: 20150906222100) do
   add_index "posts", ["user_id"], name: "index_posts_on_user_id", using: :btree
 
   create_table "producers", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "class_year"
+    t.text     "name"
+    t.text     "class_year"
     t.text     "bio"
     t.integer  "albums_count"
     t.datetime "created_at",      null: false
@@ -90,7 +90,7 @@ ActiveRecord::Schema.define(version: 20150906222100) do
 
   create_table "tracks", force: :cascade do |t|
     t.integer  "album_id"
-    t.string   "title"
+    t.text     "title"
     t.integer  "track_number"
     t.float    "length_in_seconds"
     t.datetime "created_at",        null: false

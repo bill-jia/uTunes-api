@@ -5,7 +5,12 @@ class AlbumsController < ApplicationController
   # GET /albums
   # GET /albums.json
   def index
-    if params[:artist_id]
+    if params[:search]
+      @search = Album.search do
+        fulltext params[:search]
+      end
+      @albums = @search.results
+    elsif params[:artist_id]
       @albums = Artist.find(params[:artist_id]).albums
     elsif params[:producer_id]
       @albums = Producer.find(params[:producer_id]).albums

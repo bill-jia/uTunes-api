@@ -14,4 +14,13 @@ class Track < ActiveRecord::Base
     end
   end
 
+  searchable do
+    text :title
+    text :artists do
+      artists.map(&:name)
+    end
+    text :album do
+      album.title + " " + album.year
+    end
+  end
 end

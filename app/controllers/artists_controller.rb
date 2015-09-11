@@ -5,7 +5,12 @@ class ArtistsController < ApplicationController
   # GET /artists
   # GET /artists.json
   def index
-    if params[:track_id]
+    if params[:search]
+      @search = Artist.search do
+        fulltext params[:search]
+      end
+      @artists = @search.results    
+    elsif params[:track_id]
       @artists = Track.find(params[:track_id]).artists
     else
       @artists = Artist.all
