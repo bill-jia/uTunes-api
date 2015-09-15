@@ -7,7 +7,7 @@ class Album < ActiveRecord::Base
 	accepts_nested_attributes_for :tracks, allow_destroy: true
 	accepts_nested_attributes_for :producers, allow_destroy: true
 
-	before_save :get_producers
+	before_save :get_producers, :get_duration
 	after_create :get_artists
 
 	searchable do
@@ -26,6 +26,13 @@ class Album < ActiveRecord::Base
 	def get_producers
 		self.producers = self.producers.collect do |producer|
 			Producer.create_with(bio: producer.bio).find_or_create_by(name: producer.name, class_year: producer.class_year)
+		end
+	end
+
+	def get_duration
+		self.duration = 0
+		self.tracks.each do |track|
+			self.duration += track.length_in_seconds
 		end
 	end
 
