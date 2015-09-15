@@ -20,3 +20,6 @@ seeds.rb
 *.png
 *.jpg
 *.gif
+
+#Ignore search index
+/solr/*
