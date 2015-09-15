@@ -22,4 +22,4 @@ seeds.rb
 *.gif
 
 #Ignore search index
-/solr/*
+/solr/development/*
