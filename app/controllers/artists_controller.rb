@@ -52,7 +52,7 @@ class ArtistsController < ApplicationController
   # DELETE /artists/1
   # DELETE /artists/1.json
   def destroy
-    artist_strong_delete(@artist, params[:delete_associated_tracks])
+    artist_strong_delete(@artist, params[:delete_associated_tracks]=="true")
 
     head :no_content
   end

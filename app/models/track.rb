@@ -20,7 +20,7 @@ class Track < ActiveRecord::Base
       artists.map(&:name)
     end
     text :album do
-      album.title + " " + album.year
+      album.title + (album.year ? " " + album.year : "")
     end
   end
 end

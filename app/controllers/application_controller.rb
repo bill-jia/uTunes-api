@@ -62,16 +62,15 @@ class ApplicationController < ActionController::API
   end
 
   def album_strong_delete(album)
-    album.tracks.each do |track|
-      logger.debug "Deleting:" + track.title
-      track_strong_delete(track)
-    end
-
     album.producers.each do |producer|
       if producer.albums.size == 1
         producer.remove_profile_picture = true
         producer.destroy
       end
+    end
+
+    album.tracks.each do |track|
+      track_strong_delete(track)
     end
 
     album.remove_cover_image = true
