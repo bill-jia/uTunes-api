@@ -108,7 +108,7 @@ class AlbumsController < ApplicationController
     end
 
     def album_params
-      params.require(:album).permit(:title, :year, :tracks_count, :cover_image, :description, producers_attributes: [:id, :name, :class_year, :bio, :_destroy, :_remove],
+      params.require(:album).permit(:title, :year, :tracks_count, :cover_image, :description, :cover_designer, producers_attributes: [:id, :name, :class_year, :bio, :_destroy, :_remove],
       tracks_attributes: [{artists_attributes:[:id, :name, :class_year, :bio, :_destroy]}, :id, :title, :track_number, :length_in_seconds, :_destroy, :album_id, :audio])
     end
 end
