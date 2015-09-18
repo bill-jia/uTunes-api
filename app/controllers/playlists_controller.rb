@@ -58,12 +58,24 @@ class PlaylistsController < ApplicationController
   # POST /playlists
   # POST /playlists.json
   def create
+    if params[:playlist][:seed_track_id]
+      seed_track_id = params[:playlist][:seed_track_id]
+      params[:playlist].delete(:seed_track_id)
+      @seed_track = Track.find(seed_track_id)
+    end
+
     @playlist = Playlist.new(playlist_params)
+    
+    if @seed_track
+      @playlist.tracks << @seed_track
+    end
+    
     authorize @playlist
+    
     if @playlist.save
       @user = User.find(params[:playlist][:user_id])
       @user.playlists << @playlist
-      @user.save      
+      @user.save
       head :no_content
     else
       render json: @playlist.errors, status: :unprocessable_entity
@@ -119,6 +131,6 @@ class PlaylistsController < ApplicationController
     end
 
     def playlist_params
-      params.require(:playlist).permit(:id, :title, :author, :user_id, :is_public, tracks_attributes: [:_remove, :id])
+      params.require(:playlist).permit(:id, :title, :author, :user_id, :is_public, :seed_track_id, tracks_attributes: [:_remove, :id])
     end
 end
