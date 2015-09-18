@@ -1,7 +1,7 @@
 class ProducersController < ApplicationController
   before_action :set_producer, only: [:show, :update, :destroy]
   before_action :process_params, only: [:create, :update]
-  
+  after_action :verify_authorized, :except => :index  
   # GET /producers
   # GET /producers.json
   def index
@@ -21,6 +21,7 @@ class ProducersController < ApplicationController
   # GET /producers/1
   # GET /producers/1.json
   def show
+    authorize @producer
     render json: @producer
   end
 
@@ -28,7 +29,7 @@ class ProducersController < ApplicationController
   # POST /producers.json
   def create
     @producer = Producer.new(producer_params)
-
+    authorize @producer
     if @producer.save
       head :no_content
     else
@@ -39,8 +40,7 @@ class ProducersController < ApplicationController
   # PATCH/PUT /producers/1
   # PATCH/PUT /producers/1.json
   def update
-    @producer = Producer.find(params[:id])
-
+    authorize @producer
     if @producer.update(producer_params)
       head :no_content
     else
@@ -51,8 +51,8 @@ class ProducersController < ApplicationController
   # DELETE /producers/1
   # DELETE /producers/1.json
   def destroy
+    authorize @producer
     @producer.destroy
-
     head :no_content
   end
 

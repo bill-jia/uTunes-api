@@ -1,7 +1,7 @@
 class TracksController < ApplicationController
   before_action :set_track, only: [:show, :update, :destroy]
   before_action :process_params, only: [:create, :update]
-
+  after_action :verify_authorized, :except => :index
   # GET /tracks
   # GET /tracks.json
   def index
@@ -25,6 +25,7 @@ class TracksController < ApplicationController
   # GET /tracks/1
   # GET /tracks/1.json
   def show
+    authorize @track
     render json: @track
   end
 
@@ -32,7 +33,7 @@ class TracksController < ApplicationController
   # POST /tracks.json
   def create
     @track = Track.new(track_params)
-
+    authorize @track
     if @track.save
       head :no_content
       # render json: @track, status: :created, location: @track
@@ -44,8 +45,7 @@ class TracksController < ApplicationController
   # PATCH/PUT /tracks/1
   # PATCH/PUT /tracks/1.json
   def update
-    @track = Track.find(params[:id])
-
+    authorize @track
     if @track.update(track_params)
       if params["track"]["artists_attributes"]
         params["track"]["artists_attributes"].each do |artist|
@@ -67,8 +67,8 @@ class TracksController < ApplicationController
   # DELETE /tracks/1
   # DELETE /tracks/1.json
   def destroy
+    authorize @track
 		track_strong_delete(@track)
-
     head :no_content
   end
 

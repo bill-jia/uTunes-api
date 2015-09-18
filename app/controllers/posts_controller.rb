@@ -1,6 +1,7 @@
 class PostsController < ApplicationController 
   before_action :set_post, only: [:show, :update, :destroy]
   before_action :process_params, only: [:create, :update]
+  after_action :verify_authorized, :except => :index  
 
   # GET /posts
   # GET /posts.json
@@ -16,6 +17,7 @@ class PostsController < ApplicationController
   # GET /posts/1
   # GET /posts/1.json
   def show
+    authorize @post
     render json: @post
   end
 
@@ -23,7 +25,7 @@ class PostsController < ApplicationController
   # POST /posts.json
   def create
     @post = Post.new(post_params)
-
+    authorize @post
     if @post.save
       head :no_content
     else
@@ -35,7 +37,7 @@ class PostsController < ApplicationController
   # PATCH/PUT /posts/1.json
   def update
     @post = Post.find(params[:id])
-
+    authorize @post
     if @post.update(post_params)
       head :no_content
     else

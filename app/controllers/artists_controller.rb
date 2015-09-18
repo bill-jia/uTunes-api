@@ -1,7 +1,8 @@
 class ArtistsController < ApplicationController
   before_action :set_artist, only: [:show, :update, :destroy]
   before_action :process_params, only: [:create, :update]
-
+  after_action :verify_authorized, :except => :index
+  
   # GET /artists
   # GET /artists.json
   def index
@@ -22,6 +23,7 @@ class ArtistsController < ApplicationController
   # GET /artists/1
   # GET /artists/1.json
   def show
+    authorize @artist
     render json: @artist
   end
 
@@ -29,7 +31,7 @@ class ArtistsController < ApplicationController
   # POST /artists.json
   def create
     @artist = Artist.new(artist_params)
-
+    authorize @artist
     if @artist.save
       head :no_content
     else
@@ -40,8 +42,7 @@ class ArtistsController < ApplicationController
   # PATCH/PUT /artists/1
   # PATCH/PUT /artists/1.json
   def update
-    @artist = Artist.find(params[:id])
-
+    authorize @artist
     if @artist.update(artist_params)
       head :no_content
     else
@@ -52,6 +53,7 @@ class ArtistsController < ApplicationController
   # DELETE /artists/1
   # DELETE /artists/1.json
   def destroy
+    authorize @artist
     artist_strong_delete(@artist, params[:delete_associated_tracks]=="true")
 
     head :no_content

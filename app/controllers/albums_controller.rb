@@ -1,6 +1,7 @@
 class AlbumsController < ApplicationController
   before_action :set_album, only: [:show, :update, :destroy]
   before_action :process_params, only: [:create, :update]
+  after_action :verify_authorized, :except => :index
 
   # GET /albums
   # GET /albums.json
@@ -23,6 +24,7 @@ class AlbumsController < ApplicationController
   # GET /albums/1
   # GET /albums/1.json
   def show
+    authorize @album
     render json: @album
   end
 
@@ -30,7 +32,7 @@ class AlbumsController < ApplicationController
   # POST /albums.json
   def create
     @album = Album.new(album_params)
-
+    authorize @album
     if @album.save
       head :no_content
       # render json: @album, status: :created, location: @album
@@ -42,8 +44,7 @@ class AlbumsController < ApplicationController
   # PATCH/PUT /albums/1
   # PATCH/PUT /albums/1.json
   def update
-    @album = Album.find(params[:id])
-
+    authorize @album
     if @album.update(album_params)
       if params["album"]["producers_attributes"]
         params["album"]["producers_attributes"].each do |producer|
@@ -65,6 +66,7 @@ class AlbumsController < ApplicationController
   # DELETE /albums/1
   # DELETE /albums/1.json
   def destroy
+    authorize @album
     album_strong_delete(@album)
 
     head :no_content
