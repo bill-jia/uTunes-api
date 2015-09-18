@@ -1,7 +1,8 @@
 class PlaylistsController < ApplicationController
   before_action :set_playlist, only: [:show, :update, :destroy]
   before_action :process_params, only: [:create, :update]
-
+  after_action :verify_authorized, :except => :index
+  
   # GET /playlists
   # GET /playlists.json
   def index
@@ -12,8 +13,8 @@ class PlaylistsController < ApplicationController
     elsif !current_user
       if params[:search]
         @search = Playlist.search do
+          fulltext params[:search]
           all_of do
-            fulltext params[:search]
             with(:is_public, true)
           end
         end
@@ -24,12 +25,10 @@ class PlaylistsController < ApplicationController
     elsif current_user.role == "user"
       if params[:search]
         @search = Playlist.search do
-          all_of do
-            fulltext params[:search]
-            any do
-              with(:is_public, true)
-              with(:user_id, current_user.id)              
-            end
+          fulltext params[:search]
+          any_of do
+            with(:is_public, true)
+            with(:user_id, current_user.id)
           end
         end
         @playlists = @search.results        
