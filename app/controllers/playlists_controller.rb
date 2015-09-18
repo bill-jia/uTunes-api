@@ -90,6 +90,7 @@ class PlaylistsController < ApplicationController
           end
         end
       end
+      @playlist.save
       head :no_content
     else
       render json: @playlist.errors, status: :unprocessable_entity
