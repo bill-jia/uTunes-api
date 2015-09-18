@@ -1,7 +1,6 @@
 class PlaylistsController < ApplicationController
   before_action :set_playlist, only: [:show, :update, :destroy]
   before_action :process_params, only: [:create, :update]
-  after_action :verify_authorized  
 
   # GET /playlists
   # GET /playlists.json
@@ -11,14 +10,42 @@ class PlaylistsController < ApplicationController
     if params[:user_id]
       @playlists = User.find(params[:user_id]).playlists
     elsif !current_user
-      @playlists = Playlist.where(is_public: true)
+      if params[:search]
+        @search = Playlist.search do
+          all_of do
+            fulltext params[:search]
+            with(:is_public, true)
+          end
+        end
+        @playlists = @search.results
+      else
+        @playlists = Playlist.where(is_public: true)
+      end
     elsif current_user.role == "user"
-      @playlists = Playlist.where("user_id = " + current_user.id.to_s + " OR is_public = TRUE")
+      if params[:search]
+        @search = Playlist.search do
+          all_of do
+            fulltext params[:search]
+            any do
+              with(:is_public, true)
+              with(:user_id, current_user.id)              
+            end
+          end
+        end
+        @playlists = @search.results        
+      else
+        @playlists = Playlist.where("user_id = " + current_user.id.to_s + " OR is_public = TRUE")
+      end
     else
-      @playlists = Playlist.all
+      if params[:search]
+        @search = Playlist.search do
+          fulltext params[:search]
+        end
+        @playlists = @search.results       
+      else
+        @playlists = Playlist.all
+      end 
     end
-    authorize @playlists
-
     render json: @playlists
   end
 
