@@ -5,7 +5,6 @@ class CreateTracks < ActiveRecord::Migration
       t.text :title
       t.integer :track_number
       t.float :length_in_seconds
-
       t.timestamps null: false
     end
   end

@@ -18,5 +18,8 @@ class TrackPolicy < ApplicationPolicy
   end
   def destroy?
   	user && user.producer?
-  end  
+  end
+  def download?
+    true
+  end
 end

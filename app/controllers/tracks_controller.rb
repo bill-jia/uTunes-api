@@ -1,7 +1,8 @@
 class TracksController < ApplicationController
-  before_action :set_track, only: [:show, :update, :destroy]
+  TOKENS = []
+  before_action :set_track, only: [:show, :update, :destroy, :download]
   before_action :process_params, only: [:create, :update]
-  after_action :verify_authorized, :except => :index
+  after_action :verify_authorized, :except => [:index, :generate_token]
   # GET /tracks
   # GET /tracks.json
   def index
@@ -69,6 +70,21 @@ class TracksController < ApplicationController
   def destroy
     authorize @track
 		track_strong_delete(@track)
+    head :no_content
+  end
+
+  def download
+    if TOKENS.include?(params[:uid])
+      TOKENS.delete(params[:uid])
+      authorize @track
+      path = "#{Rails.root}/assets/audio/tracks/#{params[:id]}/#{params[:basename]}.#{params[:extension]}"
+      response.headers['Content-Length'] = File.size(path).to_s
+      send_file path, x_sendfile: true, stream: true
+    end
+  end
+
+  def generate_token
+    TOKENS.push params[:token]
     head :no_content
   end
 

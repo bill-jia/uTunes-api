@@ -25,6 +25,8 @@ Rails.application.routes.draw do
     resources :playlists, except: [:new, :edit], defaults: {format: :json} do
       resources :tracks, only: [:index], defaults: {format: :json}      
     end
+    match "/assets/audio/tracks/:id/:basename.:extension", controller: "tracks", action: "download", via: :get
+    post "/tracks/tokens", controller: "tracks", action: "generate_token"
   end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
