@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   
   before_save -> do
     self.uid = SecureRandom.uuid
+    # Skips email confirmation
     skip_confirmation!
   end  
 
