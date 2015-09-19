@@ -26,24 +26,31 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
+    authorize @user
+    
     if current_user.valid_password?(params[:user][:admin_password])
       params[:user].delete(:admin_password)
-      authorize @user
       if @user.update(user_params)
         head :no_content
       else
-        render json: @User.errors, status: :unprocessable_entity
+        render json: @user.errors, status: :unprocessable_entity
       end
+    else
+      @user.errors.add(:admin_password, "admin password incorrect")
+      render json: @user.errors, status: :unprocessable_entity      
     end
   end
 
   def destroy
     @user = User.find(params[:id])
+    authorize @user
     if current_user.valid_password?(params[:admin_password])
-      authorize @user
       if @user.destroy
       	head :no_content
       end
+    else
+      @user.errors.add(:admin_password, "admin password incorrect")
+      render json: @user.errors, status: :unprocessable_entity
     end
   end
 

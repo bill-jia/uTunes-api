@@ -11,12 +11,12 @@ class PlaylistPolicy < ApplicationPolicy
   	record.public? || user == record.user || user.producer?
   end
   def update?
-  	user && user == record.user
+  	user && (user == record.user || user.producer?)
   end
   def create?
   	user && user == record.user
   end
   def destroy?
-  	user && user == record.user
+  	user && (user == record.user || user.producer?)
   end    
 end
