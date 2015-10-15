@@ -1,28 +1,21 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+===Description
+uTunes is an online repository for musical compositions written by students and alumni of the University of Toronto Schools. Users may stream music from the site, grouped by album, artist, or playlist, and create accounts to store their own playlists. Users with admin privileges (staff advisor and the producers of the current year's "Twig Tape") are provided with an interface to upload music and edit records. This repository contains the RESTful API used to serve the records and files to the HTML/Javascript client.
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+===Ruby Version
+2.1.6
 
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+===Dependencies
+* PostgreSQL 9.4.4
+* Rails 4.2.x
+* ImageMagick 6.9.10
+* Solr
+
+===Features
+* CRUD albums, tracks, producers, and artists with associations
+* Search with Solr
+* User authentication and authorization with Devise
+* File upload and download with Carrierwave
+* UUID-token based security to prevent direct download for unauthorized users
