@@ -74,8 +74,9 @@ class TracksController < ApplicationController
   end
 
   def download
-    if TOKENS.include?(params[:uid])
-      TOKENS.delete(params[:uid])
+    token = Token.find_by(uid: params[:uid])
+    if token
+      token.destroy
       authorize @track
       path = "#{Rails.root}/assets/audio/tracks/#{params[:id]}/#{params[:basename]}.#{params[:extension]}"
       response.headers['Content-Length'] = File.size(path).to_s
@@ -84,8 +85,11 @@ class TracksController < ApplicationController
   end
 
   def generate_token
-    TOKENS.push params[:token]
-    head :no_content
+    token = Token.new
+    token.uid = params[:token]
+    if token.save
+      head :no_content
+    end
   end
 
   private
