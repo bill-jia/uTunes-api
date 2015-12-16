@@ -21,8 +21,6 @@ default: &default
   # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: 5
   host: localhost
-  username: pguser
-  password: utunes
 
 
 development:
@@ -84,6 +82,6 @@ test:
 #
 production:
   <<: *default
-  database: utunes-api_production
-  username: utunes-api
-  password: <%= ENV['UTUNES-API_DATABASE_PASSWORD'] %>
+  database: utunes_production
+  username: utunes
+  password: <%= ENV['UTUNES_DATABASE_PASSWORD'] %>
