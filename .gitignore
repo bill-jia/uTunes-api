@@ -20,6 +20,16 @@ seeds.rb
 *.png
 *.jpg
 *.gif
+assets/*
 
 #Ignore search index
 /solr/development/*
+solr/*
+localhost:8080/*
+
+#Ignore public folder
+public/*
+
+#Ignore environment variables
+.rbenv-vars
+shared/*
